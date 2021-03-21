@@ -5,7 +5,7 @@ package com.itweixiang.study.queue;
  * <p>
  * 环形数组通过对大小取模实现。
  */
-public class ArrayQueue2 {
+public class CircleArrayQueue {
     /**
      * front : 指向队列的第一个元素
      */
@@ -18,7 +18,7 @@ public class ArrayQueue2 {
     private int[] array;
     private Integer size;
 
-    public ArrayQueue2(int size) {
+    public CircleArrayQueue(int size) {
         array = new int[size];
         this.size = size;
         front = 0;

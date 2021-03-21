@@ -1,6 +1,6 @@
 package com.itweixiang.study.queue;
 
-public class ArrayQueue1 {
+public class SingleArrayQueue {
     private int[] array;
     /**
      * 前端，出队时改变
@@ -18,7 +18,7 @@ public class ArrayQueue1 {
      */
     private Integer size;
 
-    public ArrayQueue1(int size) {
+    public SingleArrayQueue(int size) {
         array = new int[size];
         front = -1;//指向队列头部的前一个位置
         rear = -1;
