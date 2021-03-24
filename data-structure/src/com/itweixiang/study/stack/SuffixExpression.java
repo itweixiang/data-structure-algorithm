@@ -14,11 +14,6 @@ public class SuffixExpression {
     Stack<String> s1 = new Stack<>();
     Stack<String> s2 = new Stack<>();
 
-    public static void main(String[] args) {
-        SuffixExpression suffixExpression = new SuffixExpression("1+((2+3)*4)-5");
-        System.out.println(suffixExpression.result());
-    }
-
     public Integer result() {
         for (String s : s2) {
             if (isNum(s)) {
