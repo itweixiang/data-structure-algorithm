@@ -31,7 +31,7 @@ public class PrefixExpression {
             } else {
                 while (true) {
                     if (s1.isEmpty() || ")".equals(s) || ")".equals(s1.peek())
-                            || priority(s) >= priority(s1.peek())) {
+                            || priority(s) > priority(s1.peek())) {
                         s1.push(s);
                         break;
                     } else if ("(".equals(s)) {
