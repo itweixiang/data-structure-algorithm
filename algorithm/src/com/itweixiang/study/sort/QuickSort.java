@@ -20,7 +20,7 @@ public class QuickSort {
      * @param left
      * @param right
      */
-    private static void sort(int[] array, int left, int right) {
+    public static void sort(int[] array, int left, int right) {
         if (left < right) {
             //init为挖出来的第一个坑，位置为left
             int l = left, r = right, init = array[left];
