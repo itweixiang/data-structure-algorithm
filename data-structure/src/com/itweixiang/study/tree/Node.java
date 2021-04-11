@@ -9,6 +9,23 @@ public class Node {
         this.data = data;
     }
 
+    /**
+     * 当前节点的高度
+     *
+     * @return
+     */
+    public int height() {
+        return Math.max(left == null ? 0 : left.height(), right == null ? 0 : right.height()) + 1;
+    }
+
+    public int leftHeight() {
+        return left == null ? 0 : left.height();
+    }
+
+    public int rightHeight() {
+        return right == null ? 0 : right.height();
+    }
+
     @Override
     public String toString() {
         return "Node{" +
