@@ -1,12 +1,8 @@
 package top.itweixiang;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 public class NC93 {
-    public static void main(String[] args) {
-    }
-
     /**
      * lru design
      *
@@ -14,20 +10,29 @@ public class NC93 {
      * @param k         int整型 the k
      * @return int整型一维数组
      */
-    public static int[] LRU(int[][] operators, int k) {
+    public int[] LRU(int[][] operators, int k) {
         ArrayList<Integer> arrayList = new ArrayList<>();
-        ArrayList<Data> datas = new ArrayList<>();
+        HashMap<Integer, Node> hashMap = new HashMap<>();
+        LinkedList<Node> nodes = new LinkedList<>();
 
         for (int[] operator : operators) {
             if (operator[0] == 1) {
-                if (datas.size() < k) {
-                    extracted(arrayList, datas, operator);
-                } else {
-                    arrayList.remove(k - 1);
-                    extracted(arrayList, datas, operator);
+                if (hashMap.size() == k) {
+                    Node node = nodes.removeLast();
+                    hashMap.remove(node.key);
                 }
+                Node node = new Node(operator[1], operator[2]);
+                hashMap.put(operator[1], node);
+                nodes.addFirst(node);
             } else if (operator[0] == 2) {
-                extracted(arrayList, datas, operator);
+                if (hashMap.containsKey(operator[1])) {
+                    Node node = hashMap.get(operator[1]);
+                    nodes.remove(node);
+                    nodes.addFirst(node);
+                    arrayList.add(node.value);
+                } else {
+                    arrayList.add(-1);
+                }
             }
         }
 
@@ -36,61 +41,28 @@ public class NC93 {
             result[i] = arrayList.get(i);
         }
         return result;
+    }
+}
 
+class Node {
+    Integer key;
+    Integer value;
+
+    public Node(Integer key, Integer value) {
+        this.key = key;
+        this.value = value;
     }
 
-    private static void extracted(ArrayList<Integer> arrayList, ArrayList<Data> datas, int[] operator) {
-        Data data1 = new Data(operator[1]);
-        if (datas.contains(data1)) {
-            for (Data data : datas) {
-                if (data.key == operator[1]) {
-                    if (operator[0] == 2) {
-                        arrayList.add(data.value);
-                    }
-                    data.score = data.score + 1;
-                    break;
-                }
-
-            }
-        } else {
-            data1.score = 1;
-            data1.value = operator[2];
-            datas.add(data1);
-        }
-        Collections.sort(datas);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return Objects.equals(key, node.key);
     }
 
-    static class Data implements Comparable<Data> {
-        public Data(Integer key) {
-            this.key = key;
-        }
-
-        public Data(Integer key, Integer value, Integer score) {
-            this.key = key;
-            this.value = value;
-            this.score = score;
-        }
-
-        private Integer key;
-        private Integer value;
-        private Integer score;
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Data data = (Data) o;
-            return Objects.equals(key, data.key);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(key);
-        }
-
-        @Override
-        public int compareTo(Data o) {
-            return this.score.compareTo(o.score);
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(key);
     }
 }
