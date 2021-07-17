@@ -13,9 +13,9 @@ public class NC14 {
      * @param root TreeNode类
      * @return int整型ArrayList<ArrayList <>>
      */
-    public ArrayList<ArrayList<Integer>> zigzagLevelOrder(TreeNode root) {
+    public ArrayList<ArrayList<Integer>> Print(TreeNode pRoot) {
         ArrayList<ArrayList<Integer>> list = new ArrayList<>();
-        pre(list, root, 0);
+        pre(list, pRoot, 0);
         for (int i = 1; i < list.size(); i += 2) {
             ArrayList<Integer> arrayList = list.get(i);
             Collections.reverse(arrayList);
