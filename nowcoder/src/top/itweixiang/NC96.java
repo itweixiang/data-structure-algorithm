@@ -18,21 +18,32 @@ public class NC96 {
      */
     public boolean isPail(ListNode head) {
         if (head.next == null) return true;
-        ListNode node = head;
+        ListNode middle = head;
         ListNode fast = head;
         while (fast != null && fast.next != null) {
-            node = node.next;
+            middle = middle.next;
             fast = fast.next.next;
         }
-        Boolean flag = Boolean.TRUE;
-        while (node != null && flag == true) {
-            if (node.val != head.val) {
-                flag = false;
-                break;
+        ListNode tail = reverse(middle);
+        while (tail != null) {
+            if (tail.val != head.val) {
+                return false;
+            } else {
+                tail = tail.next;
+                head = head.next;
             }
-            node = node.next;
-            head = head.next;
         }
-        return flag;
+        return true;
+    }
+
+    public ListNode reverse(ListNode start) {
+        ListNode head = start;
+        while (head.next != null) {
+            ListNode tmp = head.next;
+            head.next = tmp.next;
+            tmp.next = head;
+            head = tmp;
+        }
+        return head;
     }
 }
