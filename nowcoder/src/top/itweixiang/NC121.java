@@ -1,7 +1,6 @@
 package top.itweixiang;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.TreeSet;
 
 /**
@@ -16,33 +15,22 @@ public class NC121 {
         nc121.Permutation("aabc");
     }
 
+
     public ArrayList<String> Permutation(String str) {
-        char[] chars = str.toCharArray();
-        TreeSet<String> set = new TreeSet<>();
-        for (int i = 0; i < chars.length; i++) {
-            char[] copy = str.toCharArray();
-            char tmp = copy[0];
-            copy[0] = copy[i];
-            copy[i] = tmp;
-            set.add(String.valueOf(copy));
-            for (int j = 1; j < chars.length; j++) {
-                for (int k = j; k < chars.length; k++) {
-                    set.add(extracted(set, j, copy, k));
-                }
+        TreeSet<String> treeSet = new TreeSet<>();
+        cal(treeSet, str, "");
+        return new ArrayList<>(treeSet);
+    }
+
+    public void cal(TreeSet<String> set, String str, String ss) {
+        if (str.length() == 1) {
+            set.add(ss + str);
+        } else {
+            char[] chars = str.toCharArray();
+            for (int i = 0; i < chars.length; i++) {
+                cal(set, str.substring(0, i) + str.substring(i + 1, str.length()), ss + chars[i]);
             }
-
         }
-
-        return new ArrayList<>(set);
     }
-
-    private String extracted( TreeSet<String> set, int current, char[] copy, int swap) {
-        char[] co = Arrays.copyOf(copy, copy.length);
-        char tm = co[current];
-        co[current] = co[swap];
-        co[swap] = tm;
-        return String.valueOf(co);
-    }
-
 
 }
