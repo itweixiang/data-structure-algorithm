@@ -2,46 +2,45 @@ package top.itweixiang;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.HashSet;
 
 /**
- * 《加起来和为目标值的组合 》
+ * 《加起来和为目标值的组合》
  */
 public class NC46 {
+
     public static void main(String[] args) {
         NC46 nc46 = new NC46();
-        int[] nums = {100, 10, 20, 70, 60, 10, 50};
-        nc46.combinationSum2(nums, 80);
+        int[] nums = {2, 3};
+        nc46.combinationSum2(nums, 5);
     }
 
-    public ArrayList<ArrayList<Integer>> combinationSum2(int[] num, int target) {
-        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
-        LinkedList<Integer> list = new LinkedList<>();
-        Arrays.sort(num);
-        for (int i = 0; i < num.length; i++) {
-            list.addLast(num[i]);
-        }
-        ArrayList<Integer> tmpList = new ArrayList<>();
-        int tmp = target;
-        while (!list.isEmpty()) {
-            if (list.peekFirst() > tmp) {
-                for (int i = tmpList.size() - 1; i >= 0; i++) {
-                    list.addFirst(tmpList.get(i));
-                    tmp = target;
-                }
-                //第一个元素不要了
-                list.pollFirst();
-            } else {
-                Integer i = list.pollFirst();
-                tmp = tmp - i;
-                if (tmp == 0) {
-                    result.add(new ArrayList<>(tmpList));
-                    tmpList.clear();
-                } else {
-                    tmpList.add(i);
-                }
+ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+HashSet<String> set = new HashSet<>();
+
+public ArrayList<ArrayList<Integer>> combinationSum2(int[] num, int target) {
+    Arrays.sort(num);
+    cal(num, target, 0, new ArrayList<>());
+    return result;
+}
+
+private void cal(int[] num, int target, int current, ArrayList<Integer> list) {
+    if (current < num.length && num[current] > target) return;
+    for (int i = current; i < num.length; i++) {
+        if (num[i] == target) {
+            list.add(num[i]);
+            if (!set.contains(list.toString())) {
+                result.add(new ArrayList<>(list));
+                set.add(list.toString());
             }
+            return;
+        } else if (num[i] < target) {
+            list.add(num[i]);
+            cal(num, target - num[i], i + 1, new ArrayList<>(list));
+            list.remove(list.size() - 1);
+        } else {
+            break;
         }
-        return result;
     }
+}
 }
